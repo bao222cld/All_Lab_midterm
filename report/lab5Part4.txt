@@ -30,6 +30,7 @@ D. Đánh giá (Cell 6)
 --------------------------------------------------------------------------------
 
 2. CÁCH CHẠY CODE VÀ KẾT QUẢ LOG (How to run the code and log the results)
+Notebook mã nguồn : /notebook/Untitled44.ipnyb
 
 Mã nguồn được thực thi tuần tự trong 6 cell trên Google Colab.
 
