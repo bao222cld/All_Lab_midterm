@@ -1,6 +1,6 @@
 Nội dung nộp
 
-- notebook.ipynb — notebook gốc (23001832_NguyenLeNgocBao_Lab03Part02)
+- notebook.ipynb — notebook gốc (/notebook/23001832_NguyenLeNgocBao_Lab03Part02)
 
 - src/representations/word_embedder.py — module chứa class WordEmbedder.
 
