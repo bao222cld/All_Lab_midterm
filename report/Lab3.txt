@@ -15,7 +15,7 @@ Bước 6: Thực hiện vòng huấn luyện mẫu: zero_grad → forward → l
 
 2. Cách chạy code và ghi log kết quả
 
-code trong file pdf 
+code trong file pdf /notebook/23001832_NguyenLeNgocBao_Lab03 (3).pdf
 
 
 
@@ -49,3 +49,4 @@ Không sử dụng model pretrained.
 
 
 Mô hình tự xây dựng bằng torch.nn (Linear, Embedding, Module).
+
