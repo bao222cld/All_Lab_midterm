@@ -24,7 +24,7 @@ Notebook bài lab : Lab6Pipeline.ipynb
 --------------------------------------------------------------------------------
 
 2. CÁCH CHẠY CODE VÀ KẾT QUẢ LOG (How to run the code and log the results)
-
+mã nguồn : Lab6Pipeline.ipynb
 Mã nguồn được thực thi trong 5 cell trên Google Colab.
 
 * [cite_start]**Kết quả Bài 1 (MLM):** Dự đoán hàng đầu là 'capital' với độ tin cậy cao nhất. [cite: 461]
