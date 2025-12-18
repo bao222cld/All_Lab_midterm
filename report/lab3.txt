@@ -1,0 +1,89 @@
+1. Các bước triển khai
+
+Cài đặt môi trường: Sử dụng Google Colab, cài đặt Java 17 và PySpark 3.5.1.
+
+Đọc dữ liệu: Sử dụng spark.read.json để đọc file c4-train.00000-of-01024-30K.json.gz (C4 dataset).
+
+Khảo sát dữ liệu: In schema và 3 dòng mẫu, gồm các cột text, timestamp, url.
+
+Giới hạn dữ liệu: Để xử lý nhanh, giới hạn ở 1000 dòng đầu tiên.
+
+Xây dựng Pipeline:
+
+RegexTokenizer: tách từ dựa trên regex.
+
+StopWordsRemover: loại bỏ stop words tiếng Anh mặc định.
+
+HashingTF: ánh xạ tokens sang vector tần suất.
+
+IDF: tính trọng số TF-IDF.
+
+Huấn luyện và biến đổi dữ liệu: Fit pipeline, sau đó transform dữ liệu để thu được tokens đã làm sạch và vector đặc trưng.
+
+Lưu kết quả:
+
+Parquet: lưu DataFrame kết quả để dùng lại trong Spark.
+
+Text: lưu JSON Lines gồm text, tokens, độ dài vector.
+
+Ghi log: Tạo file log ghi thời gian bắt đầu, kết thúc, trạng thái, số dòng xử lý.
+
+2. Cách chạy code và log kết quả
+
+Mở notebook trong Google Colab.
+Hoặc chạy nlp_lab3.py
+
+Mount Google Drive để lưu kết quả .
+
+Chạy lần lượt các cell trong notebook.
+
+Kết quả sẽ được lưu tại:
+
+output_parquet/ trong Google Drive.
+
+File text: /content/drive/MyDrive/lab17/lab17_pipeline_output.txt.
+
+File log: /content/drive/MyDrive/lab17/lab17_run_log.txt.
+
+Trong file log có thông tin thời gian bắt đầu, kết thúc, số dòng đã xử lý, và trạng thái (SUCCESS/ERROR).
+
+3. Giải thích kết quả thu được
+
+Schema: gồm 3 cột text, timestamp, url.
+
+Kết quả pipeline:
+
+tokens_clean: danh sách từ đã loại bỏ ký tự đặc biệt và stop words.
+
+features: vector thưa (sparse vector) biểu diễn văn bản dưới dạng TF-IDF.
+
+Ý nghĩa:
+
+Bước này chuẩn bị dữ liệu văn bản cho các bài toán tiếp theo như phân loại văn bản, clustering, hay tìm kiếm.
+
+Ví dụ: văn bản "Beginners BBQ Class Taking Place in Missoula!" sau xử lý thành [beginners, bbq, class, taking, place, missoula, ...].
+
+4. Khó khăn và cách giải quyết
+
+Khó khăn 1: Không thể dùng Databricks Free Edition vì không hỗ trợ cluster.
+→ Giải pháp: Chuyển sang Google Colab, cài PySpark thủ công.
+
+Khó khăn 2: Ban đầu có lỗi khi xuống dòng với dấu \ trong Python.
+→ Giải pháp: Đặt comment ở dòng riêng, không để sau dấu \.
+
+Khó khăn 3: Cảnh báo DeprecationWarning khi dùng datetime.utcnow().
+→ Giải pháp: Chấp nhận cảnh báo vì không ảnh hưởng logic; nếu cần có thể thay bằng datetime.now(datetime.UTC).
+
+5. Tài liệu tham khảo
+
+Apache Spark MLlib Documentation
+
+PySpark API Reference
+
+Hướng dẫn và ví dụ từ giảng viên.
+
+6. Mô hình huấn luyện sẵn (nếu có)
+
+Bài này không sử dụng mô hình huấn luyện sẵn.
+
+Tất cả pipeline đều là các bước tiền xử lý cơ bản của Spark MLlib.

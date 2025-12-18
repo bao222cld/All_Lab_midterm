@@ -1,0 +1,124 @@
+# Báo cáo Thực hành: Dependency Parsing với spaCy
+
+## 1. Các bước triển khai
+
+1. **Cài đặt spaCy và mô hình ngôn ngữ**
+   - Cài đặt spaCy bằng: `pip install spacy`
+   - Tải mô hình tiếng Anh: `python -m spacy download en_core_web_md`
+   - Load mô hình trong Python:  
+     ```python
+     nlp = spacy.load("en_core_web_md")
+     ```
+
+2. **Hiển thị dependency parse bằng displaCy**
+   - Tạo hàm `render_dep()` để trực quan hóa cấu trúc cú pháp.
+   - Khắc phục lỗi spaCy yêu cầu `options` là dictionary khi chạy trên Google Colab.
+
+3. **Hiển thị bảng token**
+   - Viết hàm `print_token_table(doc)` để liệt kê:
+     - Text  
+     - Dependency Label  
+     - Head Word  
+     - POS Tag  
+     - Children  
+
+4. **Xây dựng các hàm xử lý dependency**
+   - `extract_svo_triples(doc)`: Trích xuất Subject–Verb–Object  
+   - `adjectives_for_nouns(doc)`: Lấy tính từ bổ nghĩa (amod)  
+   - `find_main_verb(doc)`: Lấy ROOT của câu  
+   - `extract_noun_chunk_custom(doc)`: Tự viết lại hàm noun-chunk  
+   - `get_path_to_root(token)`: Lấy path từ token → ROOT  
+
+5. **Chạy thử nghiệm**
+   - Áp dụng toàn bộ hàm trên các câu mẫu để kiểm tra:
+     - Dependency tree  
+     - Bảng token  
+     - SVO  
+     - Noun chunks  
+     - Đường đi tới ROOT  
+
+6. **Ghi kết quả ra file**
+   - Xuất token log ra `/content/dependency_parse_example.txt`.
+
+---
+
+## 2. Cách chạy code và thu log kết quả
+
+1. Mở Notebook Google Colab 23001832_Lab07.ipnyb
+2. Chạy cell cài đặt model.  
+3. Chạy cell định nghĩa hàm.  
+4. Chạy cell demo cuối cùng.  
+5. Log xuất hiện dưới dạng:
+   - Biểu đồ dependency (displaCy)
+   - Bảng token
+   - Kết quả SVO
+   - Noun-chunk tự viết
+   - Path to ROOT
+6. File log cuối cùng được ghi ra ổ `/content`.
+
+---
+
+## 3. Giải thích kết quả thu được
+
+### a. Trực quan hóa dependency
+- displaCy cho thấy quan hệ phụ thuộc giữa các từ.
+- Giúp nhận diện rõ nsubj, dobj, ROOT, amod, prep,…
+
+### b. Kết quả Subject–Verb–Object
+Hàm `extract_svo_triples()` hoạt động chính xác với cấu trúc đơn và câu ghép:
+- “The cat chased the mouse.” → (cat, chased, mouse)
+- “The dog watched them.” → (dog, watched, them)
+
+### c. Noun chunk tự xây dựng
+- Thu thập các thành phần: det, amod, compound, nummod, poss  
+- Kết quả gần giống `doc.noun_chunks` nhưng đơn giản hơn.
+
+### d. Đường đi từ token đến ROOT
+- Cho phép thấy rõ cấu trúc cây dependency.  
+- Ví dụ:  
+  `startup → buying → at → looking`
+
+---
+
+## 4. Khó khăn và cách giải quyết
+
+### 1) displaCy lỗi khi chạy trong Colab
+- Nguyên nhân: spaCy 3.7+ yêu cầu `options` không được là None.  
+- Cách giải quyết: ép `options = {}` trong hàm `render_dep`.
+
+### 2) Khó xử lý SVO trong câu phối hợp
+- Câu có “and/or” làm SVO phức tạp hơn.  
+- Giải pháp: duyệt children của từng động từ độc lập.
+
+### 3) Noun-chunk tùy chỉnh không bao quát 100%
+- Một số cấu trúc như “of-phrase” hoặc apposition chưa xử lý.  
+- Giải pháp: giới hạn theo yêu cầu lab (không mở rộng thêm).
+---
+
+## 5. Nguồn tham khảo
+
+- Tài liệu chính thức spaCy: https://spacy.io  
+- API Dependency Parser: https://spacy.io/api/dependencyparser  
+- Visualization with displaCy: https://spacy.io/usage/visualizers  
+
+---
+
+## 6. Model / công cụ sử dụng
+
+- **Model sử dụng:** `en_core_web_md` (phiên bản 3.8.0, 50k từ vựng vector)  
+- **Thư viện NLP:** spaCy  
+- **Môi trường:** Google Colab  
+- **Không sử dụng LLM tạo sẵn để sinh kết quả** – chỉ dùng LLM hỗ trợ viết báo cáo và gợi ý cấu trúc code.  
+
+---
+
+## 7. Kết luận
+
+Bài thực hành đã triển khai đầy đủ pipeline phân tích cú pháp phụ thuộc với spaCy, bao gồm:
+- Tiền xử lý
+- Hiển thị cấu trúc cú pháp
+- Trích xuất thông tin (SVO, noun-chunk, amod,…)
+- Phân tích cấu trúc dependency tree
+
+
+

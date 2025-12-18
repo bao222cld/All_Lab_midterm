@@ -1,0 +1,113 @@
+# 🧠 Lab 5 – Text Classification using RNN/LSTM
+
+---
+File notebook :Untitled37.ipynb
+## **1. Tổng quan & Mục tiêu**
+Bài lab này tập trung vào bài toán **phân loại văn bản (text classification)** — cụ thể là xác định **ý định (intent)** của câu truy vấn.  
+Mục tiêu:
+- So sánh hiệu năng giữa các mô hình truyền thống (TF-IDF, Word2Vec) và mô hình học sâu tuần tự (LSTM).  
+- Phân tích ưu nhược điểm, khả năng tổng quát hóa và tính hiệu quả trên dữ liệu nhỏ.  
+- Đưa ra nhận xét định lượng (F1-score, loss) và định tính (case study).  
+
+---
+
+## **2. Dữ liệu và xử lý trước**
+- Dữ liệu kỳ vọng: `hwu_train.tsv`, `hwu_val.tsv`, `hwu_test.tsv`.  
+  Do không có file thật, một **tập dữ liệu mô phỏng** được tạo gồm:
+  - 8 mẫu huấn luyện  
+  - 8 mẫu validation  
+  - 8 mẫu kiểm thử  
+  - 6 lớp (intents): `flight_book`, `weather_query`, `reminder_create`, `home_automation`, `alarm_cancel`, `music_play`.
+
+### **Tiền xử lý:**
+- Chuẩn hóa văn bản: lowercase, bỏ ký tự đặc biệt.  
+- Tokenization bằng Keras Tokenizer.  
+- Padding độ dài cố định 15.  
+- Chia train/val/test với stratify theo lớp.  
+
+Môi trường thực nghiệm:
+- **TensorFlow 2.19.1**
+- **scikit-learn 1.5.2**
+- **Gensim 4.3.3**
+- **NumPy 1.26.4**, **SciPy 1.11.4**
+
+---
+
+## **3. Mô hình và pipeline**
+### **Pipeline 1 — TF-IDF + Logistic Regression**
+- Biểu diễn: TF-IDF (1–2 n-grams, 10.000 đặc trưng).  
+- Bộ phân loại: Logistic Regression (C=2.0).  
+
+### **Pipeline 2 — Word2Vec (Average) + Dense**
+- Huấn luyện Word2Vec từ train+val (`vector_size=100`, `window=5`).  
+- Trung bình vector từ trong câu → Dense(128, ReLU) → Softmax.  
+
+### **Pipeline 3 — Pretrained Word2Vec + LSTM**
+- Ma trận embedding khởi tạo từ Word2Vec huấn luyện trước.  
+- Kiến trúc: `Embedding (frozen)` → `LSTM(128)` → `Dense(softmax)`.  
+
+### **Pipeline 4 — Embedding (Scratch) + LSTM**
+- `Embedding` khởi tạo ngẫu nhiên và được huấn luyện cùng LSTM(128).  
+
+---
+
+## **4. Kết quả định lượng**
+
+| Pipeline | Macro-F1 (Test) | Nhận xét ngắn |
+|-----------|----------------|---------------|
+| **TF-IDF + LR** | **1.0000** | Hoạt động tốt nhất; phù hợp dữ liệu nhỏ, tuyến tính dễ phân tách. |
+| **W2V-Avg + Dense** | 0.2286 | Mất cấu trúc chuỗi, thông tin ngữ cảnh yếu. |
+| **Emb (Pretrained W2V) + LSTM** | 0.0667 | Không học được do dữ liệu quá ít. |
+| **Emb (Scratch) + LSTM** | 0.0667 | Gần như ngẫu nhiên; cần dữ liệu lớn hơn để hội tụ. |
+
+**Nhận xét:**  
+TF-IDF + LR đạt kết quả vượt trội nhờ dữ liệu nhỏ, từ khóa rõ ràng.  
+Các mô hình tuần tự (LSTM) không đủ dữ liệu để học mối quan hệ từ xa (long-term dependency).  
+
+---
+
+## **5. Phân tích định tính**
+
+| Câu ví dụ | Nhãn thật | Dự đoán (LSTM) | Nhận xét |
+|------------|------------|----------------|-----------|
+| “book a flight from hanoi to danang” | `flight_book` | `weather_query` | LSTM không hiểu được ngữ cảnh “flight”. |
+| “is it going to rain in hanoi tomorrow” | `weather_query` | `weather_query` | TF-IDF nhận đúng nhờ từ khóa “rain”, LSTM chỉ đúng ngẫu nhiên. |
+
+**Kết luận định tính:**  
+TF-IDF dùng đặc trưng tĩnh, dễ học khi tập nhỏ.  
+LSTM cần dữ liệu lớn để học được phụ thuộc dài trong chuỗi (long-term dependency).  
+
+---
+
+## **6. Thảo luận (Discussion)**
+Trong thực tế, các mạng tuần tự như **LSTM** có ưu thế rõ khi:
+- Dữ liệu lớn, có cấu trúc ngữ cảnh phức tạp.  
+- Quan hệ giữa các từ mang tính thứ tự, ví dụ: *“not good”* vs *“good”*.  
+
+Tuy nhiên, trong thí nghiệm này:
+- Dữ liệu nhỏ → gradient không ổn định → mô hình không hội tụ.  
+- Tập có nhiều lớp nhưng ít mẫu mỗi lớp → mất cân bằng nghiêm trọng.  
+- Vì thế, **mô hình tuyến tính TF-IDF + LR lại hiệu quả hơn**.  
+
+---
+
+## **7. Nhận xét & hướng mở rộng**
+### Ưu điểm:
+- TF-IDF + LR: nhanh, hiệu quả, ít cần tài nguyên.  
+- LSTM: tiềm năng với dữ liệu lớn, có thể học được ngữ cảnh dài.
+
+### Hạn chế:
+- LSTM yêu cầu dữ liệu phong phú, embedding phù hợp.  
+- Word2Vec trung bình mất toàn bộ thông tin thứ tự.  
+
+### Hướng mở rộng:
+- Thu thập thêm dữ liệu thật từ **HWU64 dataset**.  
+- Fine-tune embedding pretrained lớn hơn như **GloVe** hoặc **BERT embeddings**.  
+- Dùng **Bidirectional LSTM** hoặc **GRU** để cải thiện hiệu năng.  
+- So sánh thêm với mô hình **Transformer (BERT base)**.
+
+---
+
+## **Kết luận cuối cùng**
+> Trong bối cảnh dữ liệu nhỏ và đơn giản, **TF-IDF + Logistic Regression** vượt trội hơn hẳn các mô hình học sâu.  
+> Khi dữ liệu tăng, LSTM sẽ phát huy sức mạnh học chuỗi, đặc biệt khi dùng embedding pretrained chất lượng cao.
