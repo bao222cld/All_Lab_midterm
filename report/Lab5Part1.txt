@@ -1,0 +1,142 @@
+BÁO CÁO THỰC HÀNH
+
+Làm quen với PyTorch và cơ chế lan truyền ngược
+
+1. Mục tiêu bài thực hành
+
+Bài thực hành nhằm giúp sinh viên làm quen với thư viện PyTorch, một framework phổ biến trong lĩnh vực học sâu (Deep Learning). Thông qua bài lab, sinh viên đạt được các mục tiêu sau:
+
+Hiểu và thực hành tạo, thao tác với Tensor trong PyTorch.
+
+Thực hiện các phép toán cơ bản, indexing và reshape Tensor.
+
+Nắm được cơ chế tính đạo hàm tự động (autograd).
+
+Hiểu cách PyTorch xây dựng, lưu trữ và giải phóng computational graph.
+
+Giải thích được lỗi khi gọi backward() nhiều lần trên cùng đồ thị và các cách khắc phục.
+
+Làm quen với các lớp cơ bản trong torch.nn như Linear, Embedding và cách xây dựng mô hình kế thừa từ nn.Module.
+
+Quan sát quy trình huấn luyện mô hình thông qua một ví dụ training đơn giản.
+
+2. Các bước triển khai
+
+Chương trình được triển khai theo ba phần chính như sau:
+
+2.1. Phần 1 – Tạo và thao tác với Tensor
+
+Khởi tạo Tensor từ danh sách Python và bằng các hàm tạo sẵn của PyTorch.
+
+Thực hiện các phép toán số học cơ bản giữa các Tensor.
+
+Thực hành indexing và slicing Tensor.
+
+Thực hiện reshape Tensor bằng các phương thức như view() và reshape().
+
+Mục đích của phần này là giúp sinh viên làm quen với cú pháp và cách thao tác dữ liệu nền tảng trong PyTorch.
+
+2.2. Phần 2 – Autograd và cơ chế backward
+
+Khởi tạo Tensor với requires_grad=True.
+
+Xây dựng biểu thức toán học và gọi backward() để tính gradient.
+
+Quan sát giá trị gradient thu được và đối chiếu với tính toán lý thuyết.
+
+Minh họa lỗi xảy ra khi gọi backward() hai lần liên tiếp trên cùng một computational graph.
+
+Giải thích nguyên nhân lỗi: PyTorch mặc định giải phóng graph sau khi backward để tiết kiệm bộ nhớ.
+
+Trình bày và thử nghiệm hai cách khắc phục:
+
+Sử dụng retain_graph=True.
+
+Tính lại forward trước khi gọi backward() lần tiếp theo.
+
+2.3. Phần 3 – Xây dựng mô hình với torch.nn và training demo
+
+Sử dụng lớp nn.Linear để xây dựng lớp tuyến tính.
+
+Sử dụng nn.Embedding để ánh xạ chỉ số sang vector embedding.
+
+Xây dựng mô hình SimpleModel kế thừa từ nn.Module.
+
+Định nghĩa hàm forward() cho mô hình.
+
+Thực hiện một vòng huấn luyện đơn giản trên dữ liệu giả lập với các bước:
+
+optimizer.zero_grad()
+
+Forward pass
+
+Tính loss
+
+loss.backward()
+
+optimizer.step()
+
+3. Cách chạy chương trình và ghi log kết quả
+3.1. Cách chạy chương trình
+
+chạy /notebook/Lab05.ipynb
+
+python lab_pytorch.py
+
+3.2. Ghi log kết quả
+
+Các kết quả trung gian được in trực tiếp ra màn hình bằng print().
+
+Bao gồm:
+
+Giá trị Tensor sau mỗi phép toán.
+
+Giá trị gradient của Tensor sau khi gọi backward().
+
+Thông báo lỗi khi gọi backward() nhiều lần không giữ graph.
+
+Giá trị loss trong quá trình training demo.
+
+4. Giải thích các kết quả thu được
+
+Các phép toán Tensor và reshape cho kết quả đúng, chứng tỏ việc thao tác dữ liệu được thực hiện chính xác.
+
+Gradient tính bằng autograd khớp với lý thuyết (ví dụ x.grad = 18).
+
+Khi gọi backward() hai lần liên tiếp, PyTorch báo lỗi đúng như thiết kế do computational graph đã bị giải phóng.
+
+Khi sử dụng retain_graph=True, có thể gọi backward() nhiều lần và gradient được cộng dồn (giá trị 36 sau hai lần).
+
+Các mô-đun Linear, Embedding và SimpleModel hoạt động đúng, cho đầu ra hợp lệ.
+
+Training demo chạy ổn định với giá trị loss hợp lý, thể hiện đúng quy trình huấn luyện mô hình học sâu.
+
+5. Khó khăn gặp phải và cách giải quyết
+
+Khó khăn: Lỗi khi gọi backward() nhiều lần gây nhầm lẫn ban đầu.
+
+Giải quyết: Tìm hiểu tài liệu PyTorch để hiểu rõ cơ chế giải phóng graph sau backward.
+
+Khó khăn: Phân biệt vai trò của zero_grad() trong training loop.
+
+Giải quyết: Thực nghiệm nhiều lần và quan sát gradient để hiểu rõ cơ chế cộng dồn gradient.
+
+Khó khăn: Hiểu cách xây dựng mô hình kế thừa nn.Module.
+
+Giải quyết: Tham khảo ví dụ chuẩn trong tài liệu chính thức của PyTorch.
+
+6. Tài liệu và nguồn tham khảo
+
+PyTorch Documentation: https://pytorch.org/docs/stable/index.html
+
+PyTorch Autograd Guide: https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html
+
+PyTorch nn.Module Tutorial: https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html
+
+7. Model và công cụ sử dụng
+
+Không sử dụng model pretrained hay model tạo sẵn từ bên ngoài.
+
+Các lớp Linear và Embedding được sử dụng trực tiếp từ thư viện torch.nn.
+
+Không sử dụng prompt hay mô hình sinh nội dung.
