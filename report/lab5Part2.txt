@@ -1,7 +1,7 @@
 # 🧠 Lab 5 – Text Classification using RNN/LSTM
 
 ---
-File notebook :Untitled37.ipynb
+File notebook :/notebook/Untitled37.ipynb
 ## **1. Tổng quan & Mục tiêu**
 Bài lab này tập trung vào bài toán **phân loại văn bản (text classification)** — cụ thể là xác định **ý định (intent)** của câu truy vấn.  
 Mục tiêu:
