@@ -44,7 +44,7 @@
 
 ## 2. Cách chạy code và thu log kết quả
 
-1. Mở Notebook Google Colab 23001832_Lab07.ipnyb
+1. Mở Notebook Google Colab /notebook/23001832_Lab07.ipnyb
 2. Chạy cell cài đặt model.  
 3. Chạy cell định nghĩa hàm.  
 4. Chạy cell demo cuối cùng.  
