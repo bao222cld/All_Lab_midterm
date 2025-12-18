@@ -1,0 +1,51 @@
+BÁO CÁO THỰC HÀNH PYTORCH
+1. Các bước triển khai
+
+Bước 1: Khởi tạo và thao tác với Tensor (tạo tensor, phép toán cơ bản, indexing, reshape).
+
+Bước 2: Sử dụng cơ chế autograd để tính gradient; minh họa quá trình forward – backward.
+
+Bước 3: Thử gọi backward() nhiều lần để quan sát lỗi do đồ thị tính toán bị giải phóng.
+
+Bước 4: Khắc phục bằng cách dùng retain_graph=True hoặc thực hiện lại forward.
+
+Bước 5: Xây dựng mô hình đơn giản với torch.nn gồm Linear, Embedding và lớp SimpleModel.
+
+Bước 6: Thực hiện vòng huấn luyện mẫu: zero_grad → forward → loss.backward → optimizer.step.
+
+2. Cách chạy code và ghi log kết quả
+
+Chạy file Python bằng lệnh:
+
+python lab_pytorch.py
+
+
+Kết quả được in trực tiếp ra màn hình (giá trị tensor, gradient, thông báo lỗi backward, loss trong quá trình training).
+
+3. Giải thích kết quả thu được
+
+Các phép toán Tensor và reshape cho kết quả đúng.
+
+Gradient tính bằng autograd phù hợp với lý thuyết (x.grad = 18).
+
+Gọi backward() hai lần không giữ graph gây lỗi do đồ thị đã bị giải phóng.
+
+Dùng retain_graph=True cho phép backward nhiều lần và gradient được cộng dồn (36).
+
+Các mô-đun Linear, Embedding và SimpleModel hoạt động đúng; training demo cho loss hợp lý.
+
+4. Khó khăn và cách giải quyết
+
+Khó khăn: Lỗi khi gọi backward() nhiều lần.
+
+Giải quyết: Hiểu cơ chế giải phóng đồ thị của PyTorch và sử dụng retain_graph=True hoặc chạy lại forward.
+
+5. Nguồn tham khảo
+
+Tài liệu chính thức PyTorch: https://pytorch.org/docs
+
+6. Model và công cụ sử dụng
+
+Không sử dụng model pretrained.
+
+Mô hình tự xây dựng bằng torch.nn (Linear, Embedding, Module).
