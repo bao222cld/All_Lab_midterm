@@ -53,7 +53,7 @@ Các bước triển khai:
 
 ## **2. How to Run the Code**
 
-Chạy toàn bộ notebook theo thứ tự:
+Chạy toàn bộ notebook /notebook/23001832_RNNTagging.ipynb theo thứ tự:
 
 1. Upload 3 file JSONL thầy cung cấp.
 2. Chạy cell load dataset.
