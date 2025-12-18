@@ -1,10 +1,10 @@
 # Lab1AndLab2-230018321. 
 Các bước triển khai
 
-B1 Tạo cấu trúc thư mục project/src/... gồm 3 phần:
-1. src/core: chứa interfaces.py và dataset_loaders.py.
-2. src/preprocessing: chứa simple_tokenizer.py và regex_tokenizer.py.
-3. src/representations: chứa count_vectorizer.py.
+B1 Tạo cấu trúc thư mục project/src/... gồm các phần:
+1. src/interfaces.py và src/dataset_loaders.py.
+2. src/simple_tokenizer.py và src/regex_tokenizer.py.
+3. src/count_vectorizer.py.
 
 B2 Viết interface cho Tokenizer và Vectorizer.
 
