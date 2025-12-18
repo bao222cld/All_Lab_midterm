@@ -20,12 +20,12 @@ Các bước thực hiện gồm:
 ## 3. Cấu trúc thư mục
 Cấu trúc các file trong bài làm như sau:
 
-├── text_classifier.py # Lớp TextClassifier, huấn luyện và đánh giá mô hình
-├── vectorizers.py # Các bộ vector hóa: TF-IDF, Word2Vec
-├── run_experiments.py # Script chạy toàn bộ thí nghiệm và lưu kết quả
-├── lab5_test.py # Kiểm thử cơ bản pipeline
-├── lab5_improvement_test.py # Kiểm thử mô hình cải tiến
-├── lab5_spark_sentiment_analysis.py # Kiểm thử Spark (placeholder)
+├── src/text_classifier.py # Lớp TextClassifier, huấn luyện và đánh giá mô hình
+├── src/vectorizers.py # Các bộ vector hóa: TF-IDF, Word2Vec
+├── src/run_experiments.py # Script chạy toàn bộ thí nghiệm và lưu kết quả
+├── src/lab5_test.py # Kiểm thử cơ bản pipeline
+├── src/lab5_improvement_test.py # Kiểm thử mô hình cải tiến
+├── src/lab5_spark_sentiment_analysis.py # Kiểm thử Spark (placeholder)
 ├── results.csv # Kết quả thực nghiệm (accuracy, precision, recall, f1)
 ├── results.json # Kết quả lưu dạng JSON
 ├── requirements.txt # Danh sách thư viện cần cài đặt
