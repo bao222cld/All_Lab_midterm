@@ -31,7 +31,7 @@ Ghi log: Tạo file log ghi thời gian bắt đầu, kết thúc, trạng thái
 2. Cách chạy code và log kết quả
 
 Mở notebook trong Google Colab.
-Hoặc chạy nlp_lab2.py
+Hoặc chạy /notebook/nlp_lab2.py
 
 Mount Google Drive để lưu kết quả .
 
